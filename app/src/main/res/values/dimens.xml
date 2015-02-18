@@ -1,0 +1,14 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="placeholder_height">1dp</dimen>
+    <dimen name="image_icon">75dp</dimen>
+    <dimen name="image_icon_padding">15dp</dimen>
+    <dimen name="brand_editbox_width">150dp</dimen>
+    <dimen name="model_editbox_width">150dp</dimen>
+    <dimen name="brand_editbox_margin">15dp</dimen>
+    <dimen name="plate_editbox_width">150dp</dimen>
+    <dimen name="plate_editbox_margin">15dp</dimen>
+    <dimen name="edit_box_margin">15dp</dimen>
+</resources>

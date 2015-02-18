@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Expenses</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_profiles">Profiles</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="close">Close</string>
+    <string name="title_activity_profiles">Review profiles</string>
+    <string name="action_expenses">Expenses</string>
+    <string name="pick_photo_intent_chooser">Select or take a new Picture</string>
+
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="plate">Plate</string>
+    <string name="name">Name</string>
+</resources>
