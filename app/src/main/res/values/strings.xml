@@ -17,4 +17,5 @@
     <string name="model">Model</string>
     <string name="plate">Plate</string>
     <string name="name">Name</string>
+    <string name="new_photo_desc">Profile picture</string>
 </resources>

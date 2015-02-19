@@ -1,6 +1,8 @@
 package com.example.maniakalen.mycarapp;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -8,6 +10,9 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
 
 
 public class ProfilesFragment extends ListFragment {
@@ -16,6 +21,10 @@ public class ProfilesFragment extends ListFragment {
 
     private static ProfilesFragment fragment;
     private OnProfilesFragmentInteractionListener mListener;
+
+    ContentResolver cr;
+    private AbsListView mListView;
+    private ListAdapter mAdapter;
 
     public static ProfilesFragment newInstance()
     {
@@ -50,13 +59,30 @@ public class ProfilesFragment extends ListFragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+    private void buildNewAdapter()
+    {
+        cr = getActivity().getContentResolver();
 
+        Cursor cursor = cr.query(MyCarContentProvider.PROFILE_URI, null, null, null, null);
+        String[] fromColumns = {
+                MyDbHandler.COLUMN_DATETIME,
+                MyDbHandler.COLUMN_MILEAGE,
+                MyDbHandler.COLUMN_AMOUNT,
+                MyDbHandler.COLUMN_QUANTITY
+        };
+        int[] toViews = {R.id.date_time, R.id.mileage, R.id.amount, R.id.quantity};
+        mAdapter = new SimpleCursorAdapter(getActivity(),
+                R.layout.my_list_view, cursor,
+                fromColumns, toViews, 0);
+    }
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+    public void notifyDataChanged() {
 
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

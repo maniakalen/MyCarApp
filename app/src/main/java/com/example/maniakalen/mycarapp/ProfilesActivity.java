@@ -100,4 +100,7 @@ public class ProfilesActivity extends ActionBarActivity
     public void savePhotoFile(Intent data) {
         addProfileFragment.savePhotoFile(data);
     }
+    public void notifyDataChanged() {
+        listFragment.notifyDataChanged();
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.maniakalen.mycarapp;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AddProfileFragment extends Fragment {
     public static final int TAKE_PHOTO_CODE = 1;
@@ -38,9 +41,21 @@ public class AddProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_profile, container, false);
+        this.populateSpinner(view);
+        return view;
     }
 
+    private void populateSpinner(View view) {
+        Spinner spin = (Spinner)view.findViewById(R.id.year_spin);
+        List<String> toSpin = new ArrayList<String>();
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 1960; i <= thisYear; i++) {
+            toSpin.add(Integer.toString(i));
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,toSpin);
+        spin.setAdapter(adapter);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -92,13 +107,28 @@ public class AddProfileFragment extends Fragment {
 
     public void addNewProfile(View view) {
 
-        EditText brand = (EditText)getActivity().findViewById(R.id.brand);
+        EditText brand = (EditText)view.findViewById(R.id.brand);
+        EditText name = (EditText)view.findViewById(R.id.name);
+        EditText model = (EditText)view.findViewById(R.id.model);
+        EditText plate = (EditText)view.findViewById(R.id.plate);
+        Spinner year = (Spinner)view.findViewById(R.id.year_spin);
+
+        ContentValues values = new ContentValues();
+        values.put(MyDbHandler.COLUMN_PROFILE_NAME, name.getText().toString());
+        values.put(MyDbHandler.COLUMN_PROFILE_BRAND, brand.getText().toString());
+        values.put(MyDbHandler.COLUMN_PROFILE_MODEL, model.getText().toString());
+        values.put(MyDbHandler.COLUMN_PROFILE_PLATE, plate.getText().toString());
+        values.put(MyDbHandler.COLUMN_PROFILE_YEAR, year.getSelectedItem().toString());
+        ContentResolver cr = getActivity().getContentResolver();
+        cr.insert(MyCarContentProvider.PROFILE_URI, values);
+        mListener.notifyDataChanged();
     }
     public interface OnAddProfileFragmentListener {
         public void onAddProfileFragmentInteraction(Uri uri);
         public void onSelectImageClick(View view);
         public void savePhotoFile(Intent data);
         public void addNewProfileEntry(View view);
+        public void notifyDataChanged();
     }
 
 }

@@ -1,13 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context="com.example.maniakalen.mycarapp.AddProfileFragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="@dimen/image_icon"
@@ -15,7 +11,11 @@
             android:onClick="onSelectImageClick"
             android:src="@android:drawable/ic_menu_gallery"
             android:id="@+id/new_profile_pic"
-            android:layout_margin="@dimen/image_icon_padding"
+            android:layout_marginTop="@dimen/image_icon_margin_vertical"
+            android:layout_marginBottom="@dimen/image_icon_margin_vertical"
+            android:layout_marginLeft="@dimen/image_icon_margin_horizontal"
+            android:layout_marginRight="@dimen/image_icon_margin_horizontal"
+            android:contentDescription="@string/new_photo_desc"
             />
 
         <LinearLayout
@@ -62,30 +62,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                    
-                    <EditText
-                        android:layout_width="@dimen/plate_editbox_width"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/plate"
-                        android:layout_marginRight="@dimen/plate_editbox_margin"
-                        android:layout_marginEnd="@dimen/plate_editbox_margin"
-                        android:hint="@string/plate"
-                        />
+
+                <EditText
+                    android:layout_width="@dimen/plate_editbox_width"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/plate"
+                    android:layout_marginRight="@dimen/plate_editbox_margin"
+                    android:layout_marginEnd="@dimen/plate_editbox_margin"
+                    android:hint="@string/plate"
+                    />
 
 
-                    <Spinner
-                        android:id="@+id/year"
-                        android:layout_width="@dimen/plate_editbox_width"
-                        android:layout_height="wrap_content"
-                        />
-                </LinearLayout>
+                <Spinner
+                    android:id="@+id/year_spin"
+                    android:layout_width="@dimen/plate_editbox_width"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
             <Button android:id="@+id/add_profile"
                 android:text="@string/new_entry"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:onClick="addNewProfileEntry" />
         </LinearLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
