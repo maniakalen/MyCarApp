@@ -1,11 +1,19 @@
 package com.example.maniakalen.mycarapp;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.net.URLConnection;
 
 
 public class MainActivity extends ActionBarActivity
@@ -13,9 +21,11 @@ public class MainActivity extends ActionBarActivity
         AddNewFragment.OnFragmentInteractionListener {
 
     final int SHOW_PROFILES_LIST = 1;
-
+    final int SELECT_PROFILE_LIST = 2;
     AddNewFragment addFragment;
     ItemFragment itemFragment;
+    protected int profile_id;
+    MenuItem selected_profile_icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +45,7 @@ public class MainActivity extends ActionBarActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        selected_profile_icon = menu.findItem(R.id.action_selected_profile);
         return true;
     }
 
@@ -59,10 +70,35 @@ public class MainActivity extends ActionBarActivity
         }
         if (id == R.id.action_profiles) {
             Intent profiles = new Intent(this, ProfilesActivity.class);
-            startActivity(profiles);
+            startActivityForResult(profiles, SELECT_PROFILE_LIST);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_PROFILE_LIST) {
+                long id = data.getLongExtra("profile_id", 0);
+                setSelectedProfilePhoto(id);
+            }
+        }
+    }
+
+    private void setSelectedProfilePhoto(long id) {
+        ContentResolver r = getContentResolver();
+        Uri sel = ContentUris.withAppendedId(MyCarContentProvider.PROFILE_URI, id);
+        String[] proj = {MyDbHandler.COLUMN_PROFILE_PHOTO};
+        Cursor imgCursor = r.query(sel, proj, null, null, null);
+        imgCursor.moveToFirst();
+        String imgStr = imgCursor.getString(0);
+
+
+//        URLConnection conn = (url).openConnection();
+//        conn.connect();
+//        is = conn.getInputStream();
+//        bis = new BufferedInputStream(is, 8192);
+//        Bitmap bm = BitmapFactory.decodeStream(bis);
     }
 
     public void onFragmentInteraction(String id) {

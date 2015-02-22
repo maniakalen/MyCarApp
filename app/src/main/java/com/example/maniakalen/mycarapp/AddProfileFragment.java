@@ -24,6 +24,7 @@ public class AddProfileFragment extends Fragment {
     public static final int TAKE_PHOTO_CODE = 1;
     private OnAddProfileFragmentListener mListener;
     private Uri selectedImage = null;
+    private View view;
     public static AddProfileFragment newInstance(String param1, String param2) {
         AddProfileFragment fragment = new AddProfileFragment();
         return fragment;
@@ -41,7 +42,7 @@ public class AddProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_add_profile, container, false);
         this.populateSpinner(view);
         return view;
     }
@@ -105,23 +106,26 @@ public class AddProfileFragment extends Fragment {
     }
 
 
-    public void addNewProfile(View view) {
+    public void addNewProfile(View v) {
 
-        EditText brand = (EditText)view.findViewById(R.id.brand);
-        EditText name = (EditText)view.findViewById(R.id.name);
-        EditText model = (EditText)view.findViewById(R.id.model);
-        EditText plate = (EditText)view.findViewById(R.id.plate);
-        Spinner year = (Spinner)view.findViewById(R.id.year_spin);
+        if (this.view != null) {
+            EditText brand = (EditText) view.findViewById(R.id.brand);
+            EditText name = (EditText) view.findViewById(R.id.name);
+            EditText model = (EditText) view.findViewById(R.id.model);
+            EditText plate = (EditText) view.findViewById(R.id.plate);
+            Spinner year = (Spinner) view.findViewById(R.id.year_spin);
 
-        ContentValues values = new ContentValues();
-        values.put(MyDbHandler.COLUMN_PROFILE_NAME, name.getText().toString());
-        values.put(MyDbHandler.COLUMN_PROFILE_BRAND, brand.getText().toString());
-        values.put(MyDbHandler.COLUMN_PROFILE_MODEL, model.getText().toString());
-        values.put(MyDbHandler.COLUMN_PROFILE_PLATE, plate.getText().toString());
-        values.put(MyDbHandler.COLUMN_PROFILE_YEAR, year.getSelectedItem().toString());
-        ContentResolver cr = getActivity().getContentResolver();
-        cr.insert(MyCarContentProvider.PROFILE_URI, values);
-        mListener.notifyDataChanged();
+            ContentValues values = new ContentValues();
+            values.put(MyDbHandler.COLUMN_PROFILE_NAME, name.getText().toString());
+            values.put(MyDbHandler.COLUMN_PROFILE_BRAND, brand.getText().toString());
+            values.put(MyDbHandler.COLUMN_PROFILE_MODEL, model.getText().toString());
+            values.put(MyDbHandler.COLUMN_PROFILE_PLATE, plate.getText().toString());
+            values.put(MyDbHandler.COLUMN_PROFILE_YEAR, year.getSelectedItem().toString());
+            values.put(MyDbHandler.COLUMN_PROFILE_PHOTO, selectedImage.toString());
+            ContentResolver cr = getActivity().getContentResolver();
+            cr.insert(MyCarContentProvider.PROFILE_URI, values);
+            mListener.notifyDataChanged();
+        }
     }
     public interface OnAddProfileFragmentListener {
         public void onAddProfileFragmentInteraction(Uri uri);

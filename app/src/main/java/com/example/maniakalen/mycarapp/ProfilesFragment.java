@@ -11,11 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import com.example.maniakalen.mycarapp.dummy.DummyContent;
 
-public class ProfilesFragment extends ListFragment {
+
+public class ProfilesFragment extends ListFragment implements AbsListView.OnItemClickListener {
 
 
 
@@ -40,13 +44,22 @@ public class ProfilesFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        buildNewAdapter();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profiles, container, false);
+        View view = inflater.inflate(R.layout.fragment_profiles, container, false);
+
+        mListView = (AbsListView) view.findViewById(android.R.id.list);
+        mListView.setAdapter(mAdapter);
+
+        // Set OnItemClickListener so we can be notified on item clicks
+        mListView.setOnItemClickListener(this);
+        setListAdapter(mAdapter);
+        return view;
     }
 
     @Override
@@ -65,14 +78,13 @@ public class ProfilesFragment extends ListFragment {
 
         Cursor cursor = cr.query(MyCarContentProvider.PROFILE_URI, null, null, null, null);
         String[] fromColumns = {
-                MyDbHandler.COLUMN_DATETIME,
-                MyDbHandler.COLUMN_MILEAGE,
-                MyDbHandler.COLUMN_AMOUNT,
-                MyDbHandler.COLUMN_QUANTITY
+                MyDbHandler.COLUMN_PROFILE_PHOTO,
+                MyDbHandler.COLUMN_PROFILE_NAME,
+                MyDbHandler.COLUMN_PROFILE_PLATE
         };
-        int[] toViews = {R.id.date_time, R.id.mileage, R.id.amount, R.id.quantity};
+        int[] toViews = {R.id.profile_img, R.id.profile_name, R.id.plate_number};
         mAdapter = new SimpleCursorAdapter(getActivity(),
-                R.layout.my_list_view, cursor,
+                R.layout.profile_item_layout, cursor,
                 fromColumns, toViews, 0);
     }
     @Override
@@ -81,7 +93,24 @@ public class ProfilesFragment extends ListFragment {
         mListener = null;
     }
     public void notifyDataChanged() {
+        buildNewAdapter();
+        setListAdapter(mAdapter);
+    }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (null != mListener) {
+            // Notify the active callbacks interface (the activity, if the
+            // fragment is attached to one) that an item has been selected.
+            mListener.onProfileSelected(id);
+        }
+    }
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id){
+        super.onListItemClick(l, v, position, id);
+        if (null != mListener) {
+            mListener.onProfileSelected(id);
+        }
     }
     /**
      * This interface must be implemented by activities that contain this
@@ -94,7 +123,8 @@ public class ProfilesFragment extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnProfilesFragmentInteractionListener {
-        public void onProfilesFragmentInteraction(Uri uri);
+        public void onProfilesFragmentInteraction(String id);
+        public void onProfileSelected(long id);
     }
 
 }

@@ -114,7 +114,7 @@ public class MyCarContentProvider extends ContentProvider {
                         String[] selectionArgs, String sortOrder) {
 
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(MyDbHandler.TABLE_EXPENSES);
+
 
         int uriType = sURIMatcher.match(uri);
 
@@ -122,11 +122,17 @@ public class MyCarContentProvider extends ContentProvider {
             case PRODUCTS_ID:
                 queryBuilder.appendWhere(MyDbHandler.COLUMN_ID + "="
                         + uri.getLastPathSegment());
+                queryBuilder.setTables(MyDbHandler.TABLE_EXPENSES);
                 break;
             case PROFILE_ID:
+                queryBuilder.setTables(MyDbHandler.TABLE_PROFILES);
                 queryBuilder.appendWhere(MyDbHandler.COLUMN_PROFILE_ID + "=" + uri.getLastPathSegment());
+                break;
             case PRODUCTS:
+                queryBuilder.setTables(MyDbHandler.TABLE_EXPENSES);
+                break;
             case PROFILES:
+                queryBuilder.setTables(MyDbHandler.TABLE_PROFILES);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI");

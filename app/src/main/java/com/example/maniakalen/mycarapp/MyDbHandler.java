@@ -8,11 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MyDbHandler extends SQLiteOpenHelper {
 
 
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 15;
     private static final String DATABASE_NAME = "expenses.db";
     public static final String TABLE_EXPENSES = "expenses";
 
     public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_ID_PROFILE_ID = "profile_id";
     public static final String COLUMN_MILEAGE = "mileage";
     public static final String COLUMN_PRICE = "price";
     public static final String COLUMN_QUANTITY = "quantity";
@@ -27,6 +28,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PROFILE_YEAR = "year";
     public static final String COLUMN_PROFILE_PLATE = "plate";
     public static final String COLUMN_PROFILE_PHOTO = "photo";
+    public static final String COLUMN_PROFILE_DATE_ADD = "added_on";
 
     public MyDbHandler(Context context, String name,
                        CursorFactory factory, int version) {
@@ -37,8 +39,11 @@ public class MyDbHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String pt = "CREATE TABLE " +
                 TABLE_EXPENSES + "("
-                + COLUMN_ID + " INTEGER PRIMARY KEY," + COLUMN_MILEAGE
-                + " TEXT," + COLUMN_PRICE + " REAL," + COLUMN_QUANTITY + " REAL,"
+                + COLUMN_ID + " INTEGER PRIMARY KEY,"
+                + COLUMN_ID_PROFILE_ID + " REAL,"
+                + COLUMN_MILEAGE + " TEXT,"
+                + COLUMN_PRICE + " REAL,"
+                + COLUMN_QUANTITY + " REAL,"
                 + COLUMN_AMOUNT + " REAL,"
                 + COLUMN_DATETIME + " DATETIME DEFAULT CURRENT_TIMESTAMP)";
         db.execSQL(pt);
@@ -49,9 +54,10 @@ public class MyDbHandler extends SQLiteOpenHelper {
                 + COLUMN_PROFILE_NAME + " TEXT,"
                 + COLUMN_PROFILE_BRAND + " TEXT,"
                 + COLUMN_PROFILE_MODEL + " TEXT,"
-                + COLUMN_PROFILE_YEAR + " REAL,"
                 + COLUMN_PROFILE_PLATE + " TEXT,"
-                + COLUMN_PROFILE_PHOTO + " TEXT)";
+                + COLUMN_PROFILE_PHOTO + " TEXT,"
+                + COLUMN_PROFILE_YEAR + " REAL,"
+                + COLUMN_PROFILE_DATE_ADD + " DATETIME DEFAULT CURRENT_TIMESTAMP)";
 
         db.execSQL(pt);
     }

@@ -72,7 +72,7 @@ public class ProfilesActivity extends ActionBarActivity
     }
 
     @Override
-    public void onProfilesFragmentInteraction(Uri uri) {
+    public void onProfilesFragmentInteraction(String id) {
 
     }
 
@@ -95,6 +95,13 @@ public class ProfilesActivity extends ActionBarActivity
                 savePhotoFile(data);
             }
         }
+    }
+
+    public void onProfileSelected(long id) {
+        Intent intent = new Intent();
+        intent.putExtra("profile_id", id);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     public void savePhotoFile(Intent data) {
