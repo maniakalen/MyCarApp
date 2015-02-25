@@ -34,7 +34,8 @@
                     android:id="@+id/name"
                     android:hint="@string/name"
                     android:layout_marginRight="@dimen/edit_box_margin"
-                    android:layout_marginEnd="@dimen/edit_box_margin" />
+                    android:layout_marginEnd="@dimen/edit_box_margin">
+                    </EditText>
 
             </LinearLayout>
 

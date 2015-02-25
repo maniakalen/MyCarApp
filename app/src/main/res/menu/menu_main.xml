@@ -5,7 +5,8 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_profiles" android:title="@string/action_profiles"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_selected_profile" android:title="@string/selected_profile" />
+    <item android:id="@+id/action_selected_profile" android:title="@string/selected_profile"
+        app:showAsAction="ifRoom" />
     <item android:id="@+id/action_add" android:title="@string/new_entry"
         android:orderInCategory="100" app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_input_add"/>

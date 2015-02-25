@@ -83,7 +83,7 @@ public class ProfilesFragment extends ListFragment implements AbsListView.OnItem
                 MyDbHandler.COLUMN_PROFILE_PLATE
         };
         int[] toViews = {R.id.profile_img, R.id.profile_name, R.id.plate_number};
-        mAdapter = new SimpleCursorAdapter(getActivity(),
+        mAdapter = new AsyncImageSimpleCursorAdapter(getActivity(),
                 R.layout.profile_item_layout, cursor,
                 fromColumns, toViews, 0);
     }

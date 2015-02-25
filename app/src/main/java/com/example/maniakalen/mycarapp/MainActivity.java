@@ -5,7 +5,9 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.net.URLConnection;
 
 
@@ -93,7 +97,8 @@ public class MainActivity extends ActionBarActivity
         imgCursor.moveToFirst();
         String imgStr = imgCursor.getString(0);
 
-
+        imgCursor.close();
+        new BitmapWorkerTask<MenuItem>(selected_profile_icon, r, getResources()).execute(imgStr);
 //        URLConnection conn = (url).openConnection();
 //        conn.connect();
 //        is = conn.getInputStream();

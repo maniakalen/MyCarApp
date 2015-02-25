@@ -3,9 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="placeholder_height">1dp</dimen>
-    <dimen name="image_icon">125dp</dimen>
+    <dimen name="image_icon">90dp</dimen>
     <dimen name="image_icon_margin_horizontal">15dp</dimen>
-    <dimen name="image_icon_margin_vertical">25dp</dimen>
+    <dimen name="image_icon_margin_vertical">35dp</dimen>
     <dimen name="brand_editbox_width">150dp</dimen>
     <dimen name="model_editbox_width">150dp</dimen>
     <dimen name="brand_editbox_margin">15dp</dimen>

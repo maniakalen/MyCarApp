@@ -121,7 +121,9 @@ public class AddProfileFragment extends Fragment {
             values.put(MyDbHandler.COLUMN_PROFILE_MODEL, model.getText().toString());
             values.put(MyDbHandler.COLUMN_PROFILE_PLATE, plate.getText().toString());
             values.put(MyDbHandler.COLUMN_PROFILE_YEAR, year.getSelectedItem().toString());
-            values.put(MyDbHandler.COLUMN_PROFILE_PHOTO, selectedImage.toString());
+            if (selectedImage != null) {
+                values.put(MyDbHandler.COLUMN_PROFILE_PHOTO, selectedImage.toString());
+            }
             ContentResolver cr = getActivity().getContentResolver();
             cr.insert(MyCarContentProvider.PROFILE_URI, values);
             mListener.notifyDataChanged();
