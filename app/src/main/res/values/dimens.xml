@@ -5,11 +5,13 @@
     <dimen name="placeholder_height">1dp</dimen>
     <dimen name="image_icon">90dp</dimen>
     <dimen name="image_icon_margin_horizontal">15dp</dimen>
-    <dimen name="image_icon_margin_vertical">35dp</dimen>
+    <dimen name="image_icon_margin_vertical">45dp</dimen>
     <dimen name="brand_editbox_width">150dp</dimen>
     <dimen name="model_editbox_width">150dp</dimen>
     <dimen name="brand_editbox_margin">15dp</dimen>
     <dimen name="plate_editbox_width">150dp</dimen>
     <dimen name="plate_editbox_margin">15dp</dimen>
     <dimen name="edit_box_margin">15dp</dimen>
+    <dimen name="mini_icon_width">15dp</dimen>
+    <dimen name="mini_icon_height">15dp</dimen>
 </resources>

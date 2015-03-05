@@ -2,7 +2,9 @@ package com.example.maniakalen.mycarapp;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -86,8 +88,8 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
     private void buildNewAdapter()
     {
         cr = getActivity().getContentResolver();
-
-        Cursor cursor = cr.query(MyCarContentProvider.CONTENT_URI, null, null, null, null);
+        Uri sel = ContentUris.withAppendedId(MyCarContentProvider.CONTENT_PER_PROFILE_URI, mListener.getProfileId());
+        Cursor cursor = cr.query(sel, null, null, null, null);
         String[] fromColumns = {
                 MyDbHandler.COLUMN_DATETIME,
                 MyDbHandler.COLUMN_MILEAGE,
@@ -172,6 +174,7 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
+        public long getProfileId();
     }
 
 }

@@ -19,4 +19,7 @@
     <string name="name">Name</string>
     <string name="new_photo_desc">Profile picture</string>
     <string name="selected_profile">Selected profile</string>
+    <string name="title_activity_profiles_managment">ProfilesManagmentActivity</string>
+    <string name="title_activity_my_test">MyTestActivity</string>
+    <string name="cancel">Cancel</string>
 </resources>

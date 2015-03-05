@@ -93,7 +93,7 @@ public class AddNewFragment extends Fragment {
             ContentValues values = new ContentValues();
 
             //calculateAmountQuantityValues(returnIntent);
-
+            values.put(MyDbHandler.COLUMN_ID_PROFILE_ID, mListener.getProfileId());
             values.put(MyDbHandler.COLUMN_MILEAGE, Integer.parseInt(mileage.getText().toString()));
             values.put(MyDbHandler.COLUMN_PRICE, Float.parseFloat(price.getText().toString()));
             values.put(MyDbHandler.COLUMN_QUANTITY, Float.parseFloat(qty));
@@ -150,6 +150,7 @@ public class AddNewFragment extends Fragment {
         public void onAddNewItem(View view);
         public void onRejectNewItem(View view);
         public void notifyDataChanged();
+        public long getProfileId();
     }
 
 }

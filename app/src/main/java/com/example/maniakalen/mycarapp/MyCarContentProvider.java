@@ -18,13 +18,16 @@ public class MyCarContentProvider extends ContentProvider {
     private MyDbHandler myDB;
     private static final String AUTHORITY =
             "com.example.maniakalen.mycarapp";
-    private static final String PRODUCTS_TABLE = "expenses";
+    private static final String PRODUCTS_TABLE = MyDbHandler.TABLE_EXPENSES;
     private static final String PROFILES_TABLE = MyDbHandler.TABLE_PROFILES;
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + PRODUCTS_TABLE);
-    public static final Uri PROFILE_URI = Uri.parse("content://" + AUTHORITY + "/" + PROFILES_TABLE);
+
+    public static final Uri CONTENT_URI             = Uri.parse("content://" + AUTHORITY + "/" + PRODUCTS_TABLE);
+    public static final Uri PROFILE_URI             = Uri.parse("content://" + AUTHORITY + "/" + PROFILES_TABLE);
+    public static final Uri CONTENT_PER_PROFILE_URI = Uri.parse("content://" + AUTHORITY + "/" + PRODUCTS_TABLE + "/profile");
 
     public static final int PRODUCTS = 1;
     public static final int PRODUCTS_ID = 2;
+    public static final int PRODUCTS_BY_PROFILE = 5;
 
     public static final int PROFILES = 3;
     public static final int PROFILE_ID = 4;
@@ -38,6 +41,7 @@ public class MyCarContentProvider extends ContentProvider {
         sURIMatcher.addURI(AUTHORITY, PROFILES_TABLE, PROFILES);
         sURIMatcher.addURI(AUTHORITY, PROFILES_TABLE + "/#",
                 PROFILE_ID);
+        sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE + "/profile/#", PRODUCTS_BY_PROFILE);
     }
     public MyCarContentProvider() {
     }
@@ -133,6 +137,10 @@ public class MyCarContentProvider extends ContentProvider {
                 break;
             case PROFILES:
                 queryBuilder.setTables(MyDbHandler.TABLE_PROFILES);
+                break;
+            case PRODUCTS_BY_PROFILE:
+                queryBuilder.setTables(MyDbHandler.TABLE_EXPENSES);
+                queryBuilder.appendWhere(MyDbHandler.COLUMN_ID_PROFILE_ID + "=" + uri.getLastPathSegment());
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI");

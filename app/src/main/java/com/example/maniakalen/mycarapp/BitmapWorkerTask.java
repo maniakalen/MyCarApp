@@ -51,12 +51,15 @@ class BitmapWorkerTask<T> extends AsyncTask<String, Void, Drawable> {
     private Drawable loadImageFromUri(String uri) {
         Drawable dwb;
         try {
+            if (uri != null && uri.length() == 0) {
+                throw new FileNotFoundException("No file uri given");
+            }
             InputStream stream = r.openInputStream(Uri.parse(uri));
             BitmapFactory.Options opts = new BitmapFactory.Options();
             opts.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(stream, null, opts);
-            int width = 15;
-            int height = 15;
+            int width = R.dimen.mini_icon_width;
+            int height = R.dimen.mini_icon_height;
             final T imgView = itemReference.get();
             if (ImageView.class.isInstance(imgView)) {
                 width = ((ImageView) imgView).getLayoutParams().width;
@@ -68,7 +71,7 @@ class BitmapWorkerTask<T> extends AsyncTask<String, Void, Drawable> {
             stream = r.openInputStream(Uri.parse(uri));
             Bitmap bmp = BitmapFactory.decodeStream(stream, null, opts);
             dwb = new BitmapDrawable(res, bmp);
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException | NullPointerException ex) {
             dwb = res.getDrawable(android.R.drawable.ic_menu_gallery);
         }
         return dwb;

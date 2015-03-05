@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.maniakalen.mycarapp" >
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -28,9 +31,10 @@
             android:name=".ProfilesActivity"
             android:label="@string/title_activity_profiles" >
         </activity>
-
-
+        <activity
+            android:name=".MyTestActivity"
+            android:label="@string/title_activity_my_test" >
+        </activity>
     </application>
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 </manifest>

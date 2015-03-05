@@ -6,8 +6,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +48,7 @@ public class AddProfileFragment extends Fragment {
     }
 
     private void populateSpinner(View view) {
-        Spinner spin = (Spinner)view.findViewById(R.id.year_spin);
+        Spinner spin = (Spinner)view.findViewById(R.id.edit_profile_year_spin);
         List<String> toSpin = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = 1960; i <= thisYear; i++) {
@@ -109,11 +109,11 @@ public class AddProfileFragment extends Fragment {
     public void addNewProfile(View v) {
 
         if (this.view != null) {
-            EditText brand = (EditText) view.findViewById(R.id.brand);
-            EditText name = (EditText) view.findViewById(R.id.name);
-            EditText model = (EditText) view.findViewById(R.id.model);
-            EditText plate = (EditText) view.findViewById(R.id.plate);
-            Spinner year = (Spinner) view.findViewById(R.id.year_spin);
+            EditText brand = (EditText) view.findViewById(R.id.edit_profile_brand);
+            EditText name = (EditText) view.findViewById(R.id.edit_profile_name);
+            EditText model = (EditText) view.findViewById(R.id.edit_profile_model);
+            EditText plate = (EditText) view.findViewById(R.id.edit_profile_plate);
+            Spinner year = (Spinner) view.findViewById(R.id.edit_profile_year_spin);
 
             ContentValues values = new ContentValues();
             values.put(MyDbHandler.COLUMN_PROFILE_NAME, name.getText().toString());
@@ -135,6 +135,7 @@ public class AddProfileFragment extends Fragment {
         public void savePhotoFile(Intent data);
         public void addNewProfileEntry(View view);
         public void notifyDataChanged();
+        public void cancelAdd(View view);
     }
 
 }

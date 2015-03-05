@@ -26,15 +26,20 @@ public class ProfilesActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profiles);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
         listFragment = ProfilesFragment.newInstance();
-        transaction.replace(R.id.fragment_profiles_placeholder, listFragment );
-        transaction.addToBackStack(null);
-        transaction.commit();
-
         addProfileFragment = new AddProfileFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_profiles_placeholder, listFragment )
+                .addToBackStack(null)
+                .commit();
 
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_profiles_placeholder_add, addProfileFragment)
+                .hide(addProfileFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
 
@@ -61,10 +66,9 @@ public class ProfilesActivity extends ActionBarActivity
             return true;
         }
         if (id == R.id.action_profiles_add) {
-            getFragmentManager()
+            getSupportFragmentManager()
                     .beginTransaction()
-                    //.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
-                    .replace(R.id.fragment_profiles_placeholder_add, addProfileFragment)
+                    .show(addProfileFragment)
                     .commit();
             return true;
         }
@@ -107,7 +111,17 @@ public class ProfilesActivity extends ActionBarActivity
     public void savePhotoFile(Intent data) {
         addProfileFragment.savePhotoFile(data);
     }
+
+    @Override
     public void notifyDataChanged() {
         listFragment.notifyDataChanged();
+    }
+
+    @Override
+    public void cancelAdd(View view) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .hide(addProfileFragment)
+                .commit();
     }
 }

@@ -28,7 +28,7 @@ public class MainActivity extends ActionBarActivity
     final int SELECT_PROFILE_LIST = 2;
     AddNewFragment addFragment;
     ItemFragment itemFragment;
-    protected int profile_id;
+    protected long profile_id;
     MenuItem selected_profile_icon;
 
     @Override
@@ -84,7 +84,9 @@ public class MainActivity extends ActionBarActivity
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PROFILE_LIST) {
                 long id = data.getLongExtra("profile_id", 0);
+                profile_id = id;
                 setSelectedProfilePhoto(id);
+                notifyDataChanged();
             }
         }
     }
@@ -125,5 +127,9 @@ public class MainActivity extends ActionBarActivity
         getSupportFragmentManager().beginTransaction()
                 .remove(addFragment)
                 .commit();
+    }
+
+    public long getProfileId() {
+        return profile_id;
     }
 }

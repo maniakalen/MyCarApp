@@ -31,7 +31,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name"
+                    android:id="@+id/edit_profile_name"
                     android:hint="@string/name"
                     android:layout_marginRight="@dimen/edit_box_margin"
                     android:layout_marginEnd="@dimen/edit_box_margin">
@@ -47,7 +47,7 @@
                 <EditText
                     android:layout_width="@dimen/brand_editbox_width"
                     android:layout_height="wrap_content"
-                    android:id="@+id/brand"
+                    android:id="@+id/edit_profile_brand"
                     android:hint="@string/brand"
                     android:layout_marginRight="@dimen/brand_editbox_margin"
                     android:layout_marginEnd="@dimen/brand_editbox_margin" />
@@ -55,7 +55,7 @@
                 <EditText
                     android:layout_width="@dimen/model_editbox_width"
                     android:layout_height="wrap_content"
-                    android:id="@+id/model"
+                    android:id="@+id/edit_profile_model"
                     android:hint="@string/model" />
 
             </LinearLayout>
@@ -67,7 +67,7 @@
                 <EditText
                     android:layout_width="@dimen/plate_editbox_width"
                     android:layout_height="wrap_content"
-                    android:id="@+id/plate"
+                    android:id="@+id/edit_profile_plate"
                     android:layout_marginRight="@dimen/plate_editbox_margin"
                     android:layout_marginEnd="@dimen/plate_editbox_margin"
                     android:hint="@string/plate"
@@ -75,16 +75,26 @@
 
 
                 <Spinner
-                    android:id="@+id/year_spin"
+                    android:id="@+id/edit_profile_year_spin"
                     android:layout_width="@dimen/plate_editbox_width"
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
-            <Button android:id="@+id/add_profile"
-                android:text="@string/new_entry"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:onClick="addNewProfileEntry" />
+                android:orientation="horizontal">
+                <Button android:id="@+id/add_profile"
+                    android:text="@string/new_entry"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:onClick="addNewProfileEntry" />
+                <Button android:id="@+id/cancel"
+                    android:text="@string/cancel"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:onClick="cancelAdd" />
+            </LinearLayout>
         </LinearLayout>
 
 </LinearLayout>
