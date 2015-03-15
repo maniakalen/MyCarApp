@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity
         if (id == R.id.action_settings) {
             return true;
         }
-        if (id == R.id.action_add) {
+        if (id == R.id.pay_fuel) {
             //fragment.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_placeholder_add, addFragment)
@@ -72,6 +72,11 @@ public class MainActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+    }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PROFILE_LIST) {

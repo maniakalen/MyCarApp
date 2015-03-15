@@ -72,6 +72,20 @@ public class ProfilesFragment extends ListFragment implements AbsListView.OnItem
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        mListView.setOnItemClickListener(null);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mListView.setOnItemClickListener(this);
+    }
     private void buildNewAdapter()
     {
         cr = getActivity().getContentResolver();

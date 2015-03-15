@@ -28,6 +28,7 @@ public class MyCarContentProvider extends ContentProvider {
     public static final int PRODUCTS = 1;
     public static final int PRODUCTS_ID = 2;
     public static final int PRODUCTS_BY_PROFILE = 5;
+    public static final int PRODUCTS_BY_TYPE = 6;
 
     public static final int PROFILES = 3;
     public static final int PROFILE_ID = 4;
@@ -41,6 +42,7 @@ public class MyCarContentProvider extends ContentProvider {
         sURIMatcher.addURI(AUTHORITY, PROFILES_TABLE, PROFILES);
         sURIMatcher.addURI(AUTHORITY, PROFILES_TABLE + "/#",
                 PROFILE_ID);
+        sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE + "/#/#", PRODUCTS_BY_TYPE);
         sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE + "/profile/#", PRODUCTS_BY_PROFILE);
     }
     public MyCarContentProvider() {

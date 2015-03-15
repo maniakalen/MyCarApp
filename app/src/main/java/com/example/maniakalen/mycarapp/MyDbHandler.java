@@ -7,13 +7,45 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MyDbHandler extends SQLiteOpenHelper {
 
+    public enum ExpenseType {
+        FUEL (1), MAINTENANCE (2), INSURANCE (3), EXAMINATION (4);
 
-    private static final int DATABASE_VERSION = 167;
+        private final int exp_type;
+        ExpenseType(int exp_type) {
+            this.exp_type = exp_type;
+        }
+        public int getExpenseId()
+        {
+            return exp_type;
+        }
+        public int getExpenseName()
+        {
+            int result = 0;
+            switch (this.exp_type) {
+                case 1:
+                    result = R.string.fuel;
+                    break;
+                case 2:
+                    result =  R.string.maintenance;
+                    break;
+                case 3:
+                    result =  R.string.ensurance;
+                    break;
+                case 4:
+                    result =  R.string.examination;
+                    break;
+            }
+            return result;
+        }
+    }
+
+    private static final int DATABASE_VERSION = 168;
     private static final String DATABASE_NAME = "expenses.db";
     public static final String TABLE_EXPENSES = "expenses";
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_ID_PROFILE_ID = "profile_id";
+    public static final String COLUMN_TYPE_EXPENSE = "type";
     public static final String COLUMN_MILEAGE = "mileage";
     public static final String COLUMN_PRICE = "price";
     public static final String COLUMN_QUANTITY = "quantity";
@@ -42,6 +74,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
                 + COLUMN_ID + " INTEGER PRIMARY KEY,"
                 + COLUMN_ID_PROFILE_ID + " REAL,"
                 + COLUMN_MILEAGE + " TEXT,"
+                + COLUMN_TYPE_EXPENSE + " REAL,"
                 + COLUMN_PRICE + " REAL,"
                 + COLUMN_QUANTITY + " REAL,"
                 + COLUMN_AMOUNT + " REAL,"

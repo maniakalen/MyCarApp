@@ -22,17 +22,14 @@ import android.widget.EditText;
  * create an instance of this fragment.
  */
 public class AddNewFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private final MyDbHandler.ExpenseType expense = MyDbHandler.ExpenseType.FUEL;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -98,6 +95,8 @@ public class AddNewFragment extends Fragment {
             values.put(MyDbHandler.COLUMN_PRICE, Float.parseFloat(price.getText().toString()));
             values.put(MyDbHandler.COLUMN_QUANTITY, Float.parseFloat(qty));
             values.put(MyDbHandler.COLUMN_AMOUNT, Float.parseFloat(amt));
+            values.put(MyDbHandler.COLUMN_TYPE_EXPENSE, expense.getExpenseId());
+
             ContentResolver cr = getActivity().getContentResolver();
             cr.insert(MyCarContentProvider.CONTENT_URI, values);
             mListener.notifyDataChanged();

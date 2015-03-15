@@ -9,5 +9,16 @@
         app:showAsAction="always" />
     <item android:id="@+id/action_add" android:title="@string/new_entry"
         android:orderInCategory="100" app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_input_add"/>
+        android:icon="@android:drawable/ic_input_add">
+        <menu>
+            <item android:id="@+id/pay_fuel"
+                android:title="@string/fuel" />
+            <item android:id="@+id/pay_ensurance"
+                android:title="@string/ensurance" />
+            <item android:id="@+id/pay_maintenance"
+                android:title="@string/maintenance" />
+            <item android:id="@+id/pay_examination"
+                android:title="@string/examination" />
+        </menu>
+    </item>
 </menu>

@@ -85,6 +85,20 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
         buildNewAdapter();
 
     }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        mListView.setOnItemClickListener(null);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mListView.setOnItemClickListener(this);
+    }
     private void buildNewAdapter()
     {
         cr = getActivity().getContentResolver();
