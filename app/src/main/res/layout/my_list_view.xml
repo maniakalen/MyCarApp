@@ -2,9 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/border_black_radius"
-    >
+    android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,10 +13,7 @@
             android:id="@+id/mileage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-
-
-            />
+            android:gravity="center_vertical" />
 
         <View
             android:layout_width="1dp"
@@ -53,7 +49,6 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:id="@+id/quantity"
-
             android:gravity="center_vertical"
             />
     </LinearLayout>
@@ -62,7 +57,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-
             />
 
 </LinearLayout>

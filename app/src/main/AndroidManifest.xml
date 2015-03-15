@@ -31,10 +31,6 @@
             android:name=".ProfilesActivity"
             android:label="@string/title_activity_profiles" >
         </activity>
-        <activity
-            android:name=".MyTestActivity"
-            android:label="@string/title_activity_my_test" >
-        </activity>
     </application>
 
 </manifest>
