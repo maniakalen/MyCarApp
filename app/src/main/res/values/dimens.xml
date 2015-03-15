@@ -12,6 +12,6 @@
     <dimen name="plate_editbox_width">150dp</dimen>
     <dimen name="plate_editbox_margin">15dp</dimen>
     <dimen name="edit_box_margin">15dp</dimen>
-    <dimen name="mini_icon_width">15dp</dimen>
-    <dimen name="mini_icon_height">15dp</dimen>
+    <dimen name="mini_icon_width">30dp</dimen>
+    <dimen name="mini_icon_height">30dp</dimen>
 </resources>
