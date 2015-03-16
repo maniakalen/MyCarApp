@@ -28,7 +28,7 @@ import com.example.maniakalen.mycarapp.dummy.DummyContent;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class ItemFragment extends ListFragment implements AbsListView.OnItemClickListener {
+public class ItemFragment extends ListFragment implements AbsListView.OnItemClickListener, LoaderCallbacks<Cursor> {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -190,5 +190,41 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
         public void onFragmentInteraction(String id);
         public long getProfileId();
     }
+
+    /**
+     * http://www.grokkingandroid.com/using-loaders-in-android/
+     * @param id
+     * @param args
+     * @return
+     */
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        CursorLoader loader = new CursorLoader(
+        this.getActivity(),
+        SOME_CONTENT_URI,
+        projection,
+        selection,
+        selectionArgs,
+        sortOrder);
+        return loader;
+    }
+    public void onLoadFinished(
+
+            Loader<Cursor> loader,
+
+            Cursor cursor) {
+
+        ((SimpleCursorAdapter)this.getListAdapter()).
+
+        swapCursor(cursor);
+
+    }
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+        ((SimpleCursorAdapter)this.getListAdapter()).
+
+        swapCursor(null);
+
+    }
+
 
 }
