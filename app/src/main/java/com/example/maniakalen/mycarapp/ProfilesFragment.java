@@ -7,6 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +22,10 @@ import android.widget.SimpleCursorAdapter;
 import com.example.maniakalen.mycarapp.dummy.DummyContent;
 
 
-public class ProfilesFragment extends ListFragment implements AbsListView.OnItemClickListener {
+public class ProfilesFragment extends ListFragment implements AbsListView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
 
-
+    private static final int LIST_ID = 1;
     private static ProfilesFragment fragment;
     private OnProfilesFragmentInteractionListener mListener;
 
@@ -44,6 +47,7 @@ public class ProfilesFragment extends ListFragment implements AbsListView.OnItem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getLoaderManager().initLoader(LIST_ID, null, this);
         buildNewAdapter();
     }
 
@@ -90,7 +94,7 @@ public class ProfilesFragment extends ListFragment implements AbsListView.OnItem
     {
         cr = getActivity().getContentResolver();
 
-        Cursor cursor = cr.query(MyCarContentProvider.PROFILE_URI, null, null, null, null);
+
         String[] fromColumns = {
                 MyDbHandler.COLUMN_PROFILE_PHOTO,
                 MyDbHandler.COLUMN_PROFILE_NAME,
@@ -98,7 +102,7 @@ public class ProfilesFragment extends ListFragment implements AbsListView.OnItem
         };
         int[] toViews = {R.id.profile_img, R.id.profile_name, R.id.plate_number};
         mAdapter = new AsyncImageSimpleCursorAdapter(getActivity(),
-                R.layout.profile_item_layout, cursor,
+                R.layout.profile_item_layout, null,
                 fromColumns, toViews, 0);
     }
     @Override
@@ -107,8 +111,7 @@ public class ProfilesFragment extends ListFragment implements AbsListView.OnItem
         mListener = null;
     }
     public void notifyDataChanged() {
-        buildNewAdapter();
-        setListAdapter(mAdapter);
+
     }
 
     @Override
@@ -126,6 +129,22 @@ public class ProfilesFragment extends ListFragment implements AbsListView.OnItem
             mListener.onProfileSelected(id);
         }
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this.getActivity().getApplicationContext(), MyCarContentProvider.PROFILE_URI, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        ((SimpleCursorAdapter)this.getListAdapter()).swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        ((SimpleCursorAdapter)this.getListAdapter()).swapCursor(null);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

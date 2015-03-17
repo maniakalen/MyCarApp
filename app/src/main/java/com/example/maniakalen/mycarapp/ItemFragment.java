@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +31,7 @@ import com.example.maniakalen.mycarapp.dummy.DummyContent;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class ItemFragment extends ListFragment implements AbsListView.OnItemClickListener, LoaderCallbacks<Cursor> {
+public class ItemFragment extends ListFragment implements AbsListView.OnItemClickListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,7 +43,7 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private static final int LIST_ID = 2;
 
     static final int ITEM_ADD_NEW = 0;
     static final int ITEM_DETAILS = 1;
@@ -77,11 +80,7 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        getLoaderManager().initLoader(LIST_ID, null, this);
         buildNewAdapter();
 
     }
@@ -102,8 +101,6 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
     private void buildNewAdapter()
     {
         cr = getActivity().getContentResolver();
-        Uri sel = ContentUris.withAppendedId(MyCarContentProvider.CONTENT_PER_PROFILE_URI, mListener.getProfileId());
-        Cursor cursor = cr.query(sel, null, null, null, null);
         String[] fromColumns = {
                 MyDbHandler.COLUMN_DATETIME,
                 MyDbHandler.COLUMN_MILEAGE,
@@ -112,7 +109,7 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
         };
         int[] toViews = {R.id.date_time, R.id.mileage, R.id.amount, R.id.quantity};
         mAdapter = new SimpleCursorAdapter(getActivity(),
-                R.layout.my_list_view, cursor,
+                R.layout.my_list_view, null,
                 fromColumns, toViews, 0);
     }
     @Override
@@ -149,8 +146,7 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
 
     public void notifyDataChanged()
     {
-        buildNewAdapter();
-        setListAdapter(mAdapter);
+
     }
 
     @Override
@@ -198,33 +194,18 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
      * @return
      */
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        CursorLoader loader = new CursorLoader(
-        this.getActivity(),
-        SOME_CONTENT_URI,
-        projection,
-        selection,
-        selectionArgs,
-        sortOrder);
-        return loader;
+        Uri sel = ContentUris.withAppendedId(MyCarContentProvider.CONTENT_PER_PROFILE_URI, mListener.getProfileId());
+
+        return new CursorLoader(this.getActivity(), sel, null, null, null, null);
     }
-    public void onLoadFinished(
 
-            Loader<Cursor> loader,
-
-            Cursor cursor) {
-
-        ((SimpleCursorAdapter)this.getListAdapter()).
-
-        swapCursor(cursor);
-
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        ((SimpleCursorAdapter)this.getListAdapter()).swapCursor(cursor);
     }
+
+    @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
-        ((SimpleCursorAdapter)this.getListAdapter()).
-
-        swapCursor(null);
-
+        ((SimpleCursorAdapter)this.getListAdapter()).swapCursor(null);
     }
-
-
 }
