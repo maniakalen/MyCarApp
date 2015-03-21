@@ -26,4 +26,5 @@
     <string name="ensurance">Insurance</string>
     <string name="maintenance">Maintenance</string>
     <string name="examination">Examination</string>
+    <string name="description">Description</string>
 </resources>

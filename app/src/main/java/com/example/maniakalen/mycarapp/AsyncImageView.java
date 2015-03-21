@@ -14,8 +14,6 @@ public class AsyncImageView extends ImageView {
     }
 
     public void setImageURI(Uri uri) {
-        int i = 0;
-        Log.i("Image", "Image url set");
         super.setImageURI(uri);
     }
 

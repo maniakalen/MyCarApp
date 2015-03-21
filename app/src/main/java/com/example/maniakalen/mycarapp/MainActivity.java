@@ -28,7 +28,6 @@ public class MainActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            addFragment = new AddNewFragment();
             itemFragment = new ItemFragment();
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_placeholder, itemFragment)
@@ -57,12 +56,35 @@ public class MainActivity extends ActionBarActivity
             return true;
         }
         if (id == R.id.pay_fuel) {
-            //fragment.setArguments(getIntent().getExtras());
+            addFragment = new AddNewFuelEntry();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_placeholder_add, addFragment)
+                    .addToBackStack(null)
                     .commit();
 
             return true;
+        }
+        if (id == R.id.pay_maintenance) {
+            addFragment = new AddNewMaintenanceEntry();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_placeholder_add, addFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+        }
+        if (id == R.id.pay_ensurance) {
+            addFragment = AddNewFragment.newInstance(MyDbHandler.ExpenseType.INSURANCE);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_placeholder_add, addFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        if (id == R.id.pay_examination) {
+            addFragment = AddNewFragment.newInstance(MyDbHandler.ExpenseType.EXAMINATION);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_placeholder_add, addFragment)
+                    .addToBackStack(null)
+                    .commit();
         }
         if (id == R.id.action_profiles) {
             Intent profiles = new Intent(this, ProfilesActivity.class);

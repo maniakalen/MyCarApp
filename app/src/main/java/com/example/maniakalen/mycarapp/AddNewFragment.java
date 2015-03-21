@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,28 +23,22 @@ import android.widget.EditText;
  * create an instance of this fragment.
  */
 public class AddNewFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    protected static final String ARG_TYPE = "expense";
 
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-    private final MyDbHandler.ExpenseType expense = MyDbHandler.ExpenseType.FUEL;
+    protected OnFragmentInteractionListener mListener;
+    protected MyDbHandler.ExpenseType expense;
+    protected int layout;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment AddNewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddNewFragment newInstance(String param1, String param2) {
+    public static AddNewFragment newInstance(MyDbHandler.ExpenseType type) {
         AddNewFragment fragment = new AddNewFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_TYPE, type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,8 +51,7 @@ public class AddNewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            expense = (MyDbHandler.ExpenseType)getArguments().getSerializable(ARG_TYPE);
         }
     }
 
@@ -65,10 +59,11 @@ public class AddNewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_new, container, false);
+        return inflater.inflate(layout, container, false);
     }
 
     public void onButtonAddPressed(View view) {
+
         if (mListener != null) {
             Activity act = (Activity)mListener;
             EditText mileage = (EditText)act.findViewById(R.id.mileage);
