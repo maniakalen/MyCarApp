@@ -51,6 +51,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
     public static final String COLUMN_QUANTITY = "quantity";
     public static final String COLUMN_DATETIME = "done_on";
     public static final String COLUMN_AMOUNT = "amount";
+    public static final String COLUMN_DESCRIPTION = "description";
 
     public static final String TABLE_PROFILES = "profiles";
     public static final String COLUMN_PROFILE_ID = "_id";
@@ -78,6 +79,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
                 + COLUMN_PRICE + " REAL,"
                 + COLUMN_QUANTITY + " REAL,"
                 + COLUMN_AMOUNT + " REAL,"
+                + COLUMN_DESCRIPTION + " TEXT,"
                 + COLUMN_DATETIME + " DATETIME DEFAULT CURRENT_TIMESTAMP)";
         db.execSQL(pt);
 

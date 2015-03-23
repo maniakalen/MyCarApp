@@ -64,39 +64,7 @@ public class AddNewFragment extends Fragment {
 
     public void onButtonAddPressed(View view) {
 
-        if (mListener != null) {
-            Activity act = (Activity)mListener;
-            EditText mileage = (EditText)act.findViewById(R.id.mileage);
-            EditText price = (EditText)act.findViewById(R.id.price);
-            EditText quantity = (EditText)act.findViewById(R.id.quantity);
-            EditText amount = (EditText)act.findViewById(R.id.amount);
 
-            Intent returnIntent = new Intent();
-
-            String qty = quantity.getText().toString();
-            String amt = amount.getText().toString();
-            if (qty.equals("")) {
-                qty = "0";
-            }
-            if (amt.equals("")) {
-                amt = "0";
-            }
-
-            ContentValues values = new ContentValues();
-
-            //calculateAmountQuantityValues(returnIntent);
-            values.put(MyDbHandler.COLUMN_ID_PROFILE_ID, mListener.getProfileId());
-            values.put(MyDbHandler.COLUMN_MILEAGE, Integer.parseInt(mileage.getText().toString()));
-            values.put(MyDbHandler.COLUMN_PRICE, Float.parseFloat(price.getText().toString()));
-            values.put(MyDbHandler.COLUMN_QUANTITY, Float.parseFloat(qty));
-            values.put(MyDbHandler.COLUMN_AMOUNT, Float.parseFloat(amt));
-            values.put(MyDbHandler.COLUMN_TYPE_EXPENSE, expense.getExpenseId());
-
-            ContentResolver cr = getActivity().getContentResolver();
-            cr.insert(MyCarContentProvider.CONTENT_URI, values);
-            mListener.notifyDataChanged();
-            //getLoaderManager().restartLoader(0, null, this);
-        }
     }
 
     private void calculateAmountQuantityValues(Intent data) {
