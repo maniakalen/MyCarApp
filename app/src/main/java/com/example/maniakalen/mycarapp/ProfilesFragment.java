@@ -111,7 +111,7 @@ public class ProfilesFragment extends ListFragment implements AbsListView.OnItem
         mListener = null;
     }
     public void notifyDataChanged() {
-
+        getLoaderManager().restartLoader(LIST_ID, null, this);
     }
 
     @Override

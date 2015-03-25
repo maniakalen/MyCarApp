@@ -105,9 +105,10 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
                 MyDbHandler.COLUMN_DATETIME,
                 MyDbHandler.COLUMN_MILEAGE,
                 MyDbHandler.COLUMN_AMOUNT,
-                MyDbHandler.COLUMN_QUANTITY
+                MyDbHandler.COLUMN_QUANTITY,
+                MyDbHandler.COLUMN_DESCRIPTION
         };
-        int[] toViews = {R.id.date_time, R.id.mileage, R.id.amount, R.id.quantity};
+        int[] toViews = {R.id.date_time, R.id.mileage, R.id.amount, R.id.quantity, R.id.list_desc};
         mAdapter = new SimpleCursorAdapter(getActivity(),
                 R.layout.my_list_view, null,
                 fromColumns, toViews, 0);
@@ -146,7 +147,7 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
 
     public void notifyDataChanged()
     {
-
+        getLoaderManager().restartLoader(LIST_ID, null, this);
     }
 
     @Override
@@ -185,6 +186,7 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
         public long getProfileId();
+        public void setProfileId(long id);
     }
 
     /**

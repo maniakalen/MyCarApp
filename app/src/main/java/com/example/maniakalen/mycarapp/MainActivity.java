@@ -1,10 +1,12 @@
 package com.example.maniakalen.mycarapp;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -41,6 +43,7 @@ public class MainActivity extends ActionBarActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         selected_profile_icon = menu.findItem(R.id.action_selected_profile);
+        (new GetProfileWorker(this)).execute();
         return true;
     }
 
@@ -103,28 +106,23 @@ public class MainActivity extends ActionBarActivity
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PROFILE_LIST) {
                 long id = data.getLongExtra("profile_id", 0);
-                profile_id = id;
-                setSelectedProfilePhoto(id);
-                notifyDataChanged();
+                this.setProfileId(id);
             }
         }
     }
 
     private void setSelectedProfilePhoto(long id) {
-        ContentResolver r = getContentResolver();
-        Uri sel = ContentUris.withAppendedId(MyCarContentProvider.PROFILE_URI, id);
-        String[] proj = {MyDbHandler.COLUMN_PROFILE_PHOTO};
-        Cursor imgCursor = r.query(sel, proj, null, null, null);
-        imgCursor.moveToFirst();
-        String imgStr = imgCursor.getString(0);
+        if (id > 0) {
+            ContentResolver r = getContentResolver();
+            Uri sel = ContentUris.withAppendedId(MyCarContentProvider.PROFILE_URI, id);
+            String[] proj = {MyDbHandler.COLUMN_PROFILE_PHOTO};
+            Cursor imgCursor = r.query(sel, proj, null, null, null);
+            imgCursor.moveToFirst();
+            String imgStr = imgCursor.getString(0);
 
-        imgCursor.close();
-        new BitmapWorkerTask<MenuItem>(selected_profile_icon, r, getResources()).execute(imgStr);
-//        URLConnection conn = (url).openConnection();
-//        conn.connect();
-//        is = conn.getInputStream();
-//        bis = new BufferedInputStream(is, 8192);
-//        Bitmap bm = BitmapFactory.decodeStream(bis);
+            imgCursor.close();
+            new BitmapWorkerTask<MenuItem>(selected_profile_icon, r, getResources()).execute(imgStr);
+        }
     }
 
     public void onFragmentInteraction(String id) {
@@ -150,5 +148,33 @@ public class MainActivity extends ActionBarActivity
 
     public long getProfileId() {
         return profile_id;
+    }
+    public void setProfileId(long id) {
+        this.profile_id = id;
+        setSelectedProfilePhoto(id);
+        notifyDataChanged();
+    }
+    private class GetProfileWorker extends AsyncTask<Void, Void, Integer> {
+        protected ItemFragment.OnFragmentInteractionListener act;
+        public GetProfileWorker(ItemFragment.OnFragmentInteractionListener act) {
+            this.act = act;
+        }
+        @Override
+        protected Integer doInBackground(Void... params) {
+            Activity act = (Activity)this.act;
+            Cursor c = act.getContentResolver().query(MyCarContentProvider.PROFILE_URI, null, null, null, null);
+            if (c.getCount() > 0) {
+                c.moveToFirst();
+                Integer id = c.getInt(c.getColumnIndex(MyDbHandler.COLUMN_ID));
+                c.close();
+                return id;
+            } else {
+                return 0;
+            }
+        }
+
+        protected void onPostExecute(Integer result) {
+            this.act.setProfileId(result);
+        }
     }
 }

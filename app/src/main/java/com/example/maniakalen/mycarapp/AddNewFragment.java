@@ -1,17 +1,14 @@
 package com.example.maniakalen.mycarapp;
 
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 
 /**
@@ -67,7 +64,7 @@ public class AddNewFragment extends Fragment {
 
     }
 
-    private void calculateAmountQuantityValues(Intent data) {
+/*    private void calculateAmountQuantityValues(Intent data) {
         Float price = data.getFloatExtra(MyDbHandler.COLUMN_PRICE, 0);
         Float quantity = data.getFloatExtra(MyDbHandler.COLUMN_QUANTITY, 0);
         Float amount = data.getFloatExtra(MyDbHandler.COLUMN_AMOUNT, 0);
@@ -79,7 +76,7 @@ public class AddNewFragment extends Fragment {
             amount = quantity * price;
             data.putExtra(MyDbHandler.COLUMN_AMOUNT, amount);
         }
-    }
+    }*/
 
     @Override
     public void onAttach(Activity activity) {
@@ -115,4 +112,20 @@ public class AddNewFragment extends Fragment {
         public long getProfileId();
     }
 
+
+    protected class DataSaveWorkerAbstract extends AsyncTask<Void, Void, Uri> {
+        protected OnFragmentInteractionListener act;
+        protected long profile_id;
+        public DataSaveWorkerAbstract(OnFragmentInteractionListener act, long profile_id) {
+            this.act = act;
+            this.profile_id = profile_id;
+        }
+        @Override
+        protected Uri doInBackground(Void... params) {
+            return MyCarContentProvider.CONTENT_URI;
+        }
+        protected void onPostExecute(Uri result) {
+            this.act.notifyDataChanged();
+        }
+    }
 }

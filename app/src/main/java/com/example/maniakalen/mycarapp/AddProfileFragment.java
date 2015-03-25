@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -107,28 +108,46 @@ public class AddProfileFragment extends Fragment {
 
 
     public void addNewProfile(View v) {
+        (new DataSaveWorker(mListener, this.view)).execute();
+    }
 
-        if (this.view != null) {
-            EditText brand = (EditText) view.findViewById(R.id.edit_profile_brand);
-            EditText name = (EditText) view.findViewById(R.id.edit_profile_name);
-            EditText model = (EditText) view.findViewById(R.id.edit_profile_model);
-            EditText plate = (EditText) view.findViewById(R.id.edit_profile_plate);
-            Spinner year = (Spinner) view.findViewById(R.id.edit_profile_year_spin);
+    protected class DataSaveWorker extends AsyncTask<Void, Void, Uri> {
+        protected View view;
+        protected OnAddProfileFragmentListener act;
+        public DataSaveWorker(OnAddProfileFragmentListener act, View view) {
+            super();
+            this.act = act;
+            this.view = view;
+        }
+        @Override
+        protected Uri doInBackground(Void... params) {
+            Uri uri = null;
+            if (this.view != null) {
+                EditText brand = (EditText) view.findViewById(R.id.edit_profile_brand);
+                EditText name = (EditText) view.findViewById(R.id.edit_profile_name);
+                EditText model = (EditText) view.findViewById(R.id.edit_profile_model);
+                EditText plate = (EditText) view.findViewById(R.id.edit_profile_plate);
+                Spinner year = (Spinner) view.findViewById(R.id.edit_profile_year_spin);
 
-            ContentValues values = new ContentValues();
-            values.put(MyDbHandler.COLUMN_PROFILE_NAME, name.getText().toString());
-            values.put(MyDbHandler.COLUMN_PROFILE_BRAND, brand.getText().toString());
-            values.put(MyDbHandler.COLUMN_PROFILE_MODEL, model.getText().toString());
-            values.put(MyDbHandler.COLUMN_PROFILE_PLATE, plate.getText().toString());
-            values.put(MyDbHandler.COLUMN_PROFILE_YEAR, year.getSelectedItem().toString());
-            if (selectedImage != null) {
-                values.put(MyDbHandler.COLUMN_PROFILE_PHOTO, selectedImage.toString());
+                ContentValues values = new ContentValues();
+                values.put(MyDbHandler.COLUMN_PROFILE_NAME, name.getText().toString());
+                values.put(MyDbHandler.COLUMN_PROFILE_BRAND, brand.getText().toString());
+                values.put(MyDbHandler.COLUMN_PROFILE_MODEL, model.getText().toString());
+                values.put(MyDbHandler.COLUMN_PROFILE_PLATE, plate.getText().toString());
+                values.put(MyDbHandler.COLUMN_PROFILE_YEAR, year.getSelectedItem().toString());
+                if (selectedImage != null) {
+                    values.put(MyDbHandler.COLUMN_PROFILE_PHOTO, selectedImage.toString());
+                }
+                ContentResolver cr = getActivity().getContentResolver();
+                uri = cr.insert(MyCarContentProvider.PROFILE_URI, values);
             }
-            ContentResolver cr = getActivity().getContentResolver();
-            cr.insert(MyCarContentProvider.PROFILE_URI, values);
-            mListener.notifyDataChanged();
+            return uri;
+        }
+        protected void onPostExecute(Uri result) {
+            this.act.notifyDataChanged();
         }
     }
+
     public interface OnAddProfileFragmentListener {
         public void onAddProfileFragmentInteraction(Uri uri);
         public void onSelectImageClick(View view);
