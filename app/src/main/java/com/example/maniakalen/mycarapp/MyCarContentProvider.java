@@ -24,6 +24,7 @@ public class MyCarContentProvider extends ContentProvider {
     public static final Uri CONTENT_URI             = Uri.parse("content://" + AUTHORITY + "/" + PRODUCTS_TABLE);
     public static final Uri PROFILE_URI             = Uri.parse("content://" + AUTHORITY + "/" + PROFILES_TABLE);
     public static final Uri CONTENT_PER_PROFILE_URI = Uri.parse("content://" + AUTHORITY + "/" + PRODUCTS_TABLE + "/profile");
+    public static final Uri CONTENT_PER_TYPE_URI    = Uri.parse("content://" + AUTHORITY + "/" + PRODUCTS_TABLE + "/type");
 
     public static final int PRODUCTS = 1;
     public static final int PRODUCTS_ID = 2;
@@ -42,7 +43,7 @@ public class MyCarContentProvider extends ContentProvider {
         sURIMatcher.addURI(AUTHORITY, PROFILES_TABLE, PROFILES);
         sURIMatcher.addURI(AUTHORITY, PROFILES_TABLE + "/#",
                 PROFILE_ID);
-        sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE + "/#/#", PRODUCTS_BY_TYPE);
+        sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE + "/type/#", PRODUCTS_BY_TYPE);
         sURIMatcher.addURI(AUTHORITY, PRODUCTS_TABLE + "/profile/#", PRODUCTS_BY_PROFILE);
     }
     public MyCarContentProvider() {
@@ -143,6 +144,10 @@ public class MyCarContentProvider extends ContentProvider {
             case PRODUCTS_BY_PROFILE:
                 queryBuilder.setTables(MyDbHandler.TABLE_EXPENSES);
                 queryBuilder.appendWhere(MyDbHandler.COLUMN_ID_PROFILE_ID + "=" + uri.getLastPathSegment());
+                break;
+            case PRODUCTS_BY_TYPE:
+                queryBuilder.setTables(MyDbHandler.TABLE_EXPENSES);
+                queryBuilder.appendWhere(MyDbHandler.COLUMN_TYPE_EXPENSE + "=" + uri.getLastPathSegment());
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI");

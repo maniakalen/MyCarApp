@@ -196,7 +196,7 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
      * @return
      */
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri sel = ContentUris.withAppendedId(MyCarContentProvider.CONTENT_PER_PROFILE_URI, mListener.getProfileId());
+        Uri sel = this.getLoaderUri();
 
         return new CursorLoader(this.getActivity().getApplicationContext(), sel, null, null, null, null);
     }
@@ -209,5 +209,9 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         ((SimpleCursorAdapter)this.getListAdapter()).swapCursor(null);
+    }
+
+    protected Uri getLoaderUri() {
+        return ContentUris.withAppendedId(MyCarContentProvider.CONTENT_PER_PROFILE_URI, mListener.getProfileId());
     }
 }

@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_tabs);
+        setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             itemFragment = new ItemFragment();
             /*getSupportFragmentManager().beginTransaction()
@@ -46,9 +46,8 @@ public class MainActivity extends ActionBarActivity
 
             mDemoCollectionPagerAdapter.addItem("All", itemFragment);
 
-            addFragment = new AddNewFuelEntry();
-            mDemoCollectionPagerAdapter.addItem("Add Fuel", addFragment);
-            mDemoCollectionPagerAdapter.addItem("Add Maintenance", new AddNewMaintenanceEntry());
+            mDemoCollectionPagerAdapter.addItem("Fuel", new FuelItemFragment());
+            //mDemoCollectionPagerAdapter.addItem("Add Maintenance", new AddNewMaintenanceEntry());
             mViewPager = (ViewPager) findViewById(R.id.pager);
             mViewPager.setAdapter(mDemoCollectionPagerAdapter);
 
