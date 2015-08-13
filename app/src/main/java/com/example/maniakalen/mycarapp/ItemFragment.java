@@ -191,8 +191,8 @@ public class ItemFragment extends ListFragment implements AbsListView.OnItemClic
 
     /**
      * http://www.grokkingandroid.com/using-loaders-in-android/
-     * @param id
-     * @param args
+     * @param int id
+     * @param android.os.Bundle args
      * @return
      */
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

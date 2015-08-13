@@ -27,4 +27,12 @@
     <string name="maintenance">Maintenance</string>
     <string name="examination">Examination</string>
     <string name="description">Description</string>
+    <string name="pick_company">Your insurance company</string>
+    <string name="pick_type">Your insurance type</string>
+
+    <string-array name="insurance_companies">
+        <item>Mapfre</item>
+        <item>Balumba</item>
+    </string-array>
+
 </resources>

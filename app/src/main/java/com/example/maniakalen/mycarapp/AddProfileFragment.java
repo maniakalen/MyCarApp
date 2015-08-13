@@ -108,33 +108,47 @@ public class AddProfileFragment extends Fragment {
 
 
     public void addNewProfile(View v) {
-        (new DataSaveWorker(mListener, this.view)).execute();
+        (new DataSaveWorker(mListener, this.view)).prepare().execute();
     }
 
     protected class DataSaveWorker extends AsyncTask<Void, Void, Uri> {
         protected View view;
         protected OnAddProfileFragmentListener act;
+        String brd;
+        String nm;
+        String md;
+        String plt;
+        String yr;
         public DataSaveWorker(OnAddProfileFragmentListener act, View view) {
             super();
             this.act = act;
             this.view = view;
         }
+        public DataSaveWorker prepare()
+        {
+            EditText brand = (EditText) view.findViewById(R.id.edit_profile_brand);
+            EditText name = (EditText) view.findViewById(R.id.edit_profile_name);
+            EditText model = (EditText) view.findViewById(R.id.edit_profile_model);
+            EditText plate = (EditText) view.findViewById(R.id.edit_profile_plate);
+            Spinner year = (Spinner) view.findViewById(R.id.edit_profile_year_spin);
+
+            brd = brand.getText().toString();
+            nm = name.getText().toString();
+            md = model.getText().toString();
+            plt = plate.getText().toString();
+            yr = year.getSelectedItem().toString();
+            return this;
+        }
         @Override
         protected Uri doInBackground(Void... params) {
             Uri uri = null;
             if (this.view != null) {
-                EditText brand = (EditText) view.findViewById(R.id.edit_profile_brand);
-                EditText name = (EditText) view.findViewById(R.id.edit_profile_name);
-                EditText model = (EditText) view.findViewById(R.id.edit_profile_model);
-                EditText plate = (EditText) view.findViewById(R.id.edit_profile_plate);
-                Spinner year = (Spinner) view.findViewById(R.id.edit_profile_year_spin);
-
                 ContentValues values = new ContentValues();
-                values.put(MyDbHandler.COLUMN_PROFILE_NAME, name.getText().toString());
-                values.put(MyDbHandler.COLUMN_PROFILE_BRAND, brand.getText().toString());
-                values.put(MyDbHandler.COLUMN_PROFILE_MODEL, model.getText().toString());
-                values.put(MyDbHandler.COLUMN_PROFILE_PLATE, plate.getText().toString());
-                values.put(MyDbHandler.COLUMN_PROFILE_YEAR, year.getSelectedItem().toString());
+                values.put(MyDbHandler.COLUMN_PROFILE_NAME, nm);
+                values.put(MyDbHandler.COLUMN_PROFILE_BRAND, brd);
+                values.put(MyDbHandler.COLUMN_PROFILE_MODEL, md);
+                values.put(MyDbHandler.COLUMN_PROFILE_PLATE, plt);
+                values.put(MyDbHandler.COLUMN_PROFILE_YEAR, yr);
                 if (selectedImage != null) {
                     values.put(MyDbHandler.COLUMN_PROFILE_PHOTO, selectedImage.toString());
                 }

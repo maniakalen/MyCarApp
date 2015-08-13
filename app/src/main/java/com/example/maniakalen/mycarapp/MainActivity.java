@@ -7,9 +7,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,59 +25,17 @@ public class MainActivity extends ActionBarActivity
     protected long profile_id;
     MenuItem selected_profile_icon;
 
-    FragmentCollectionPagerAdapter mDemoCollectionPagerAdapter;
-    ViewPager mViewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             itemFragment = new ItemFragment();
-            /*getSupportFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_placeholder, itemFragment)
-                    .commit();*/
-
-            mDemoCollectionPagerAdapter =
-                    new FragmentCollectionPagerAdapter(
-                            getSupportFragmentManager());
-
-            mDemoCollectionPagerAdapter.addItem("All", itemFragment);
-
-            mDemoCollectionPagerAdapter.addItem("Fuel", new FuelItemFragment());
-            //mDemoCollectionPagerAdapter.addItem("Add Maintenance", new AddNewMaintenanceEntry());
-            mViewPager = (ViewPager) findViewById(R.id.pager);
-            mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+                    .commit();
 
 
-
-            final ActionBar actionBar = getSupportActionBar();
-
-            // Specify that tabs should be displayed in the action bar.
-            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-            // Create a tab listener that is called when the user changes tabs.
-            ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-                public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                    mViewPager.setCurrentItem(tab.getPosition());
-                }
-
-                public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                    // hide the given tab
-                }
-
-                public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                    // probably ignore this event
-                }
-            };
-
-            // Add 3 tabs, specifying the tab's text and TabListener
-            int itemsCount = mDemoCollectionPagerAdapter.getCount();
-            for (int i = 0; i < itemsCount; i++) {
-                actionBar.addTab(
-                        actionBar.newTab()
-                                .setText(mDemoCollectionPagerAdapter.getPageTitle(i))
-                                .setTabListener(tabListener));
-            }
         }
     }
 
@@ -123,7 +78,7 @@ public class MainActivity extends ActionBarActivity
 
         }
         if (id == R.id.pay_ensurance) {
-            addFragment = AddNewFragment.newInstance(MyDbHandler.ExpenseType.INSURANCE);
+            addFragment = new AddNewInsuranceEntry();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_placeholder_add, addFragment)
                     .addToBackStack(null)
@@ -178,7 +133,9 @@ public class MainActivity extends ActionBarActivity
 
     public void notifyDataChanged()
     {
-        itemFragment.notifyDataChanged();
+        if (itemFragment != null) {
+            itemFragment.notifyDataChanged();
+        }
     }
 
     public void onAddNewItem(View view)
